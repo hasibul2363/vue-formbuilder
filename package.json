@@ -13,6 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.1",
     "muse-ui": "^3.0.0-rc.1",
     "nuxt": "^1.0.0",
     "nuxt-babel": "^0.1.2"
