@@ -11,6 +11,7 @@
     </mu-form-item> -->
 
     <text-box-biz :schema="formSchema.txt1"></text-box-biz>
+    <autocomplete-biz :schema="formSchema.txt2"></autocomplete-biz>
 
     <mu-form-item label="Passwprd" prop="validateForm.password" :rules="passwordRules">
         <mu-text-field type="password" v-model="validateForm.password" prop="validateForm.password"></mu-text-field>
@@ -34,12 +35,12 @@
 <script>
 import axios from "axios";
 import textBoxBiz from "../components/formbuilder/bizControls/text-box-biz";
+import autocompleteBiz from "../components/formbuilder/bizControls/autocomplete-biz";
 export default {
-  async asyncData({store}) {
+  async asyncData({ store }) {
     const { data } = await axios.get("http://icanhazip.com");
     var pp = JSON.stringify(data);
     return { myipVal: "You are using from" + pp }; //+ " from vuex " + store.state.counter
-
   },
   data() {
     return {
@@ -53,18 +54,20 @@ export default {
           maxLength: "5",
           minLength: "2",
           required: true,
-          controlType:"textBoxBiz"
+          controlType: "textBoxBiz"
         },
         txt2: {
           label: "Your Age",
           name: "txt2",
-          value: "2",
+          value: "1",
           placeholder: "here is fun2",
-          readonly: false,
-          maxValue: 5,
-          minValue: 2,
           required: false,
-          controlType:"textBoxNumberBiz"
+          data: [
+            { userId: 1, userName: "hasibul" },
+            { userId: 2, userName: "haque" }
+          ],
+          valueMember:"userName",
+          displayMember:"userName",
         },
         txtSalary: {
           label: "Salary",
@@ -74,7 +77,7 @@ export default {
           placeholder: "here is your salary",
           readonly: false,
           required: false,
-          controlType:"textBoxFormulaBiz"
+          controlType: "textBoxFormulaBiz"
         }
       },
 
@@ -102,12 +105,19 @@ export default {
       }
     };
   },
-  components:{
-    textBoxBiz:textBoxBiz
+  components: {
+    textBoxBiz: textBoxBiz,
+    autocompleteBiz: autocompleteBiz
   },
   methods: {
-    submit() {
-      this.$refs.form.validate();
+     submit() {
+      //var res = await this.$refs.form.validate();
+      //alert(res);
+      this.formSchema.txt2.data = [
+            { userId: 1, userName: "hasibul" },
+            { userId: 2, userName: "haque" },
+            { userId: 3, userName: "Masud Rana" }
+          ]
     },
     clear() {
       this.$refs.form.clear();
@@ -117,11 +127,11 @@ export default {
         isAgree: false
       };
     },
-     test() {
-      alert(JSON.stringify(  this.formSchema.txt1));
+    test() {
+      alert(JSON.stringify(this.formSchema));
     }
   }
-}
+};
 </script>
 
 <style>

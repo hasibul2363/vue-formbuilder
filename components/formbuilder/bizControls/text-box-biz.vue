@@ -7,6 +7,7 @@
   :readonly="schema.readonly"
   :required="schema.required"
   :value="schema.value"
+  :label="schema.label"
   :data.sync="schema.value">
   </text-box>
 </template>

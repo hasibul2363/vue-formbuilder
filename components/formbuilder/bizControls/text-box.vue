@@ -1,5 +1,5 @@
 <template>
-   <mu-form-item :label="label" prop="value" :rules="validationRules">
+   <mu-form-item :label="overrideLabel" prop="value" :rules="validationRules">
       <mu-text-field :value="value"  @input="raiseChangeEvent"></mu-text-field>
     </mu-form-item>
 </template>
@@ -10,12 +10,21 @@ export default {
     let validationRules =   [];
     if  (this.maxLength && this.maxLength > 0){
       validationRules.push({
-          validate: val => this.value.length >= 3,
-          message: "The username length is greater than 3"
+          validate: val => this.value.length < this.maxLength,
+          message: "max length is " + this.maxLength
         });
     }
+    if(this.required){
+        validationRules.push({
+          validate: val => this.value.length > 0,
+          message: "Cannot be empty"
+        });
+    }
+
+
     return {
-      validationRules :validationRules
+      validationRules :validationRules,
+      overrideLabel: this.label +" *"
     }
   },
   methods:{
@@ -24,7 +33,7 @@ export default {
     }
   },
   created(){
-    //alert(this.maxlength);
+    //alert(this.label);
   }
 
 };
