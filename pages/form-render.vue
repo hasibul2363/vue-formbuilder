@@ -11,7 +11,8 @@
     </mu-form-item> -->
 
     <text-box-biz :schema="formSchema.txt1"></text-box-biz>
-    <autocomplete-biz :schema="formSchema.txt2"></autocomplete-biz>
+    <!-- <autocomplete-biz :schema="formSchema.txt2"></autocomplete-biz> -->
+    <dropdownlist-biz :schema="formSchema.txt2"></dropdownlist-biz>
 
     <mu-form-item label="Passwprd" prop="validateForm.password" :rules="passwordRules">
         <mu-text-field type="password" v-model="validateForm.password" prop="validateForm.password"></mu-text-field>
@@ -36,6 +37,7 @@
 import axios from "axios";
 import textBoxBiz from "../components/formbuilder/bizControls/text-box-biz";
 import autocompleteBiz from "../components/formbuilder/bizControls/autocomplete-biz";
+import dropdownlistBiz from "../components/formbuilder/bizControls/dropdownlist-biz";
 export default {
   async asyncData({ store }) {
     const { data } = await axios.get("http://icanhazip.com");
@@ -107,7 +109,8 @@ export default {
   },
   components: {
     textBoxBiz: textBoxBiz,
-    autocompleteBiz: autocompleteBiz
+    autocompleteBiz: autocompleteBiz,
+    dropdownlistBiz:dropdownlistBiz
   },
   methods: {
      submit() {
