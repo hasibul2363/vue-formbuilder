@@ -70,6 +70,9 @@ export default {
           ],
           valueMember:"userName",
           displayMember:"userName",
+          filterable:false,
+          loading:false,
+          text:""
         },
         txtSalary: {
           label: "Salary",
@@ -116,6 +119,8 @@ export default {
      submit() {
       //var res = await this.$refs.form.validate();
       //alert(res);
+
+      this.formSchema.txt2.value  = "";
       this.formSchema.txt2.data = [
             { userId: 1, userName: "hasibul" },
             { userId: 2, userName: "haque" },
@@ -131,7 +136,7 @@ export default {
       };
     },
     test() {
-      alert(JSON.stringify(this.formSchema));
+      alert(JSON.stringify(this.formSchema.txt2));
     }
   }
 };

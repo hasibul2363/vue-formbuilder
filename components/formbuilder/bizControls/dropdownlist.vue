@@ -1,7 +1,16 @@
 <template>
-       <mu-select label="Normal" filterable  v-model="ownValue" full-width @change="handleSelected" @keyup="exp">
-        <mu-option v-for="dataItem in datasource" :key="dataItem.userId" :label="dataItem.userName" :value="dataItem.userId"></mu-option>
-      </mu-select>
+<mu-row gutter>
+  <mu-col lg="11" sm="10" span="11">
+        <mu-select :label="label" :filterable="filterable" full-width  v-model="ownValue" @change="handleSelected">
+          <mu-option v-for="dataItem in datasource" :key="dataItem.userId" :label="dataItem.userName" :value="dataItem.userId"></mu-option>
+        </mu-select>
+  </mu-col>
+  <mu-col lg="1" sm="2" span="11" v-if="loading">
+    <div class="myloader">
+      <mu-circular-progress class="demo-circular-progress" :size="22"></mu-circular-progress>
+    </div>
+  </mu-col>
+</mu-row>
 </template>
 <script>
 export default {
@@ -12,30 +21,45 @@ export default {
     "placeholder",
     "required",
     "displayMember",
-    "valueMember"
+    "valueMember",
+    "filterable",
+    "loading",
+    "label"
   ],
 
   data() {
     return {
-      ownValue:  this.datasource.filter(p=>p.userId == this.value)[0].userName
+      ownValue: ""
     };
   },
   methods: {
+    setValue() {
+      let tempValue = "";
+      var dataItem = this.datasource.filter(p => p.userId == this.value);
+      if (dataItem.length > 0) {
+        tempValue = dataItem[0].userName;
+      }
+
+        this.ownValue = tempValue;
+
+    },
+
     handleSelected(value) {
-      //alert(JSON.stringify(value));
       if (value) {
         this.$emit("update:data", value);
       } else {
         this.$emit("update:data", "");
       }
-    },
-    exp(value){
-       console.log(this.$ref);
     }
   },
   mounted() {
-    //this.processData();
-    //this.$watch("datasource", this.processData);
+    this.setValue();
+    this.$watch("value", this.setValue);
   }
 };
 </script>
+<style>
+.myloader {
+  margin-top: 32px;
+}
+</style>
