@@ -9,14 +9,18 @@
     <!-- <mu-form-item label="User Name" prop="validateForm.username" :rules="usernameRules">
       <mu-text-field v-model="validateForm.username" prop="validateForm.username"></mu-text-field>
     </mu-form-item> -->
+    <!-- <autocomplete-biz :schema="formSchema.txt2"></autocomplete-biz> -->
+    <!-- <dropdownlist-biz :schema="formSchema.txt2"></dropdownlist-biz> -->
+
 
     <text-box-biz :schema="formSchema.txt1"></text-box-biz>
-    <!-- <autocomplete-biz :schema="formSchema.txt2"></autocomplete-biz> -->
-    <dropdownlist-biz :schema="formSchema.txt2"></dropdownlist-biz>
+    <dropdownlist-biz :schema="formSchema.post"></dropdownlist-biz>
+    <dropdownlist-biz :schema="formSchema.comment"></dropdownlist-biz>
+    <text-box-biz :schema="formSchema.txtPassword"></text-box-biz>
 
-    <mu-form-item label="Passwprd" prop="validateForm.password" :rules="passwordRules">
+    <!-- <mu-form-item label="Passwprd" prop="validateForm.password" :rules="passwordRules">
         <mu-text-field type="password" v-model="validateForm.password" prop="validateForm.password"></mu-text-field>
-    </mu-form-item>
+    </mu-form-item> -->
     <mu-form-item prop="validateForm.isAgree" :rules="argeeRules">
       <!-- <mu-checkbox label="Agree" v-model="validateForm.isAgree"></mu-checkbox> -->
     </mu-form-item>
@@ -58,6 +62,19 @@ export default {
           required: true,
           controlType: "textBoxBiz"
         },
+        txtPassword: {
+          label: "userName",
+          name: "txt1",
+          value: "",
+          placeholder: "here is fun",
+          readonly: true,
+          maxLength: "5",
+          minLength: "2",
+          required: true,
+          isPassword:true,
+          controlType: "textBoxBiz"
+        },
+
         txt2: {
           label: "Your Age",
           name: "txt2",
@@ -74,6 +91,33 @@ export default {
           loading:false,
           text:""
         },
+        post: {
+          label: "Posts",
+          name: "post",
+          value: "",
+          placeholder: "",
+          required: false,
+          data:[],
+          valueMember:"id",
+          displayMember:"title",
+          filterable:true,
+          loading:false,
+          text:""
+        },
+ comment: {
+          label: "Comments",
+          name: "comment",
+          value: "",
+          placeholder: "",
+          required: false,
+          data:[],
+          valueMember:"id",
+          displayMember:"name",
+          filterable:false,
+          loading:false,
+          text:""
+        },
+
         txtSalary: {
           label: "Salary",
           name: "txtSalary",
@@ -137,7 +181,32 @@ export default {
     },
     test() {
       alert(JSON.stringify(this.formSchema.txt2));
+    },
+    async loadPosts() {
+      let url = "https://jsonplaceholder.typicode.com/posts";
+      var posts = await axios.get(url);
+      this.formSchema.post.data = posts.data;
+    },
+    async loadComments(postId) {
+      if  (postId){
+      this.formSchema.comment.loading = true;
+      this.formSchema.comment.value = "";
+      let url = "https://jsonplaceholder.typicode.com/comments?postId=" + postId;
+      var posts = await axios.get(url);
+        this.formSchema.comment.data = posts.data;
+        this.formSchema.comment.loading = false;
+      }
+
+    },
+
+  },
+  watch:{
+    "formSchema.post.value":function() {
+        this.loadComments(this.formSchema.post.value)
     }
+  },
+  async created(){
+    await this.loadPosts();
   }
 };
 </script>

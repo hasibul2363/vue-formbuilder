@@ -1,11 +1,11 @@
 <template>
    <mu-form-item :label="overrideLabel" prop="value" :rules="validationRules">
-      <mu-text-field :value="value"  @input="raiseChangeEvent"></mu-text-field>
+      <mu-text-field :type=componentType :value="value"  @input="raiseChangeEvent"></mu-text-field>
     </mu-form-item>
 </template>
 <script>
 export default {
-  props: ["label","name", "value", "placeholder", "minlength", "maxLength", "required", "readonly"],
+  props: ["label","name", "value", "placeholder", "minlength", "maxLength", "required", "readonly", "isPassword" ],
   data(){
     let validationRules =   [];
     if  (this.maxLength && this.maxLength > 0){
@@ -21,10 +21,14 @@ export default {
         });
     }
 
-
+    let componentType = "text"
+    if(this.isPassword === true){
+      componentType = "password"
+    }
     return {
       validationRules :validationRules,
-      overrideLabel: this.label +" *"
+      overrideLabel: this.label +" *",
+      componentType:componentType
     }
   },
   methods:{

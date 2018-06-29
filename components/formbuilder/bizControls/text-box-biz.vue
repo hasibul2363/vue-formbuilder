@@ -8,6 +8,7 @@
   :required="schema.required"
   :value="schema.value"
   :label="schema.label"
+  :isPassword="schema.isPassword"
   :data.sync="schema.value">
   </text-box>
 </template>
