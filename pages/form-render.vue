@@ -17,6 +17,7 @@
     <dropdownlist-biz :schema="formSchema.post"></dropdownlist-biz>
     <dropdownlist-biz :schema="formSchema.comment"></dropdownlist-biz>
     <text-box-biz :schema="formSchema.txtPassword"></text-box-biz>
+    <datetimepicker-biz :schema="formSchema.dateInput"></datetimepicker-biz>
 
     <!-- <mu-form-item label="Passwprd" prop="validateForm.password" :rules="passwordRules">
         <mu-text-field type="password" v-model="validateForm.password" prop="validateForm.password"></mu-text-field>
@@ -42,6 +43,8 @@ import axios from "axios";
 import textBoxBiz from "../components/formbuilder/bizControls/text-box-biz";
 import autocompleteBiz from "../components/formbuilder/bizControls/autocomplete-biz";
 import dropdownlistBiz from "../components/formbuilder/bizControls/dropdownlist-biz";
+import datetimepickerBiz from "../components/formbuilder/bizControls/datetimepicker-biz";
+
 export default {
   async asyncData({ store }) {
     const { data } = await axios.get("http://icanhazip.com");
@@ -71,7 +74,7 @@ export default {
           maxLength: "5",
           minLength: "2",
           required: true,
-          isPassword:true,
+          isPassword: true,
           controlType: "textBoxBiz"
         },
 
@@ -85,11 +88,11 @@ export default {
             { userId: 1, userName: "hasibul" },
             { userId: 2, userName: "haque" }
           ],
-          valueMember:"userName",
-          displayMember:"userName",
-          filterable:false,
-          loading:false,
-          text:""
+          valueMember: "userName",
+          displayMember: "userName",
+          filterable: false,
+          loading: false,
+          text: ""
         },
         post: {
           label: "Posts",
@@ -97,25 +100,33 @@ export default {
           value: "",
           placeholder: "",
           required: false,
-          data:[],
-          valueMember:"id",
-          displayMember:"title",
-          filterable:true,
-          loading:false,
-          text:""
+          data: [],
+          valueMember: "id",
+          displayMember: "title",
+          filterable: true,
+          loading: false,
+          text: ""
         },
- comment: {
+        comment: {
           label: "Comments",
           name: "comment",
           value: "",
           placeholder: "",
           required: false,
-          data:[],
-          valueMember:"id",
-          displayMember:"name",
-          filterable:false,
-          loading:false,
-          text:""
+          data: [],
+          valueMember: "id",
+          displayMember: "name",
+          filterable: false,
+          loading: false,
+          text: ""
+        },
+        dateInput: {
+          label: "Date Input",
+          name: "dateInput",
+          value: "",
+          required: false,
+          format: "YYYY/MM/DD",
+          readonly: false
         },
 
         txtSalary: {
@@ -157,19 +168,20 @@ export default {
   components: {
     textBoxBiz: textBoxBiz,
     autocompleteBiz: autocompleteBiz,
-    dropdownlistBiz:dropdownlistBiz
+    dropdownlistBiz: dropdownlistBiz,
+    datetimepickerBiz: datetimepickerBiz
   },
   methods: {
-     submit() {
+    submit() {
       //var res = await this.$refs.form.validate();
       //alert(res);
 
-      this.formSchema.txt2.value  = "";
+      this.formSchema.txt2.value = "";
       this.formSchema.txt2.data = [
-            { userId: 1, userName: "hasibul" },
-            { userId: 2, userName: "haque" },
-            { userId: 3, userName: "Masud Rana" }
-          ]
+        { userId: 1, userName: "hasibul" },
+        { userId: 2, userName: "haque" },
+        { userId: 3, userName: "Masud Rana" }
+      ];
     },
     clear() {
       this.$refs.form.clear();
@@ -188,24 +200,23 @@ export default {
       this.formSchema.post.data = posts.data;
     },
     async loadComments(postId) {
-      if  (postId){
-      this.formSchema.comment.loading = true;
-      this.formSchema.comment.value = "";
-      let url = "https://jsonplaceholder.typicode.com/comments?postId=" + postId;
-      var posts = await axios.get(url);
+      if (postId) {
+        this.formSchema.comment.loading = true;
+        this.formSchema.comment.value = "";
+        let url =
+          "https://jsonplaceholder.typicode.com/comments?postId=" + postId;
+        var posts = await axios.get(url);
         this.formSchema.comment.data = posts.data;
         this.formSchema.comment.loading = false;
       }
-
-    },
-
-  },
-  watch:{
-    "formSchema.post.value":function() {
-        this.loadComments(this.formSchema.post.value)
     }
   },
-  async created(){
+  watch: {
+    "formSchema.post.value": function() {
+      this.loadComments(this.formSchema.post.value);
+    }
+  },
+  async created() {
     await this.loadPosts();
   }
 };

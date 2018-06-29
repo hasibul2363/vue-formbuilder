@@ -13,7 +13,8 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: "https://unpkg.com/muse-ui@3.0.0-beta.5/dist/muse-ui.css" },
+      { rel: 'stylesheet', href: "https://unpkg.com/muse-ui@3.0.0-rc.4/dist/muse-ui.css" },
+      //{ rel: 'stylesheet', href: "https://unpkg.com/muse-ui@3.0.0-beta.5/dist/muse-ui.css" },
       { rel: 'stylesheet', href: 'https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css' }
     ]
   },
