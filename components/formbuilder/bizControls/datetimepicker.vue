@@ -1,13 +1,9 @@
 <template>
 
 
-
- <mu-row gutter>
- <mu-col span="12" lg="4" sm="6">
-      <mu-date-input label="English" v-model="ownValue" format="YYYY/MM/DD" :container="containerContent"></mu-date-input>
-  </mu-col>
-  </mu-row>
-
+   <mu-form-item  :label="label" prop="value" :rules="validationRules">
+      <mu-date-input v-model="ownValue" format="YYYY/MM/DD" :container="containerContent" :date-time-format="enDateFormat" @input="raiseChangeEvent"></mu-date-input>
+    </mu-form-item>
 
 </template>
 <script>
@@ -81,6 +77,11 @@ export default {
       enDateFormat,
       containerContent
     };
+  },
+   methods:{
+    raiseChangeEvent(event){
+      this.$emit('update:data',event);
+    }
   }
 };
 </script>

@@ -47,15 +47,15 @@ import datetimepickerBiz from "../components/formbuilder/bizControls/datetimepic
 
 export default {
   async asyncData({ store }) {
-    const { data } = await axios.get("http://icanhazip.com");
-    var pp = JSON.stringify(data);
-    return { myipVal: "You are using from" + pp }; //+ " from vuex " + store.state.counter
+    //const { data } = await axios.get("http://icanhazip.com");
+    //var pp = JSON.stringify(data);
+    return { myipVal: "Test Form"  }; //+ " from vuex " + store.state.counter
   },
   data() {
     return {
       formSchema: {
         txt1: {
-          label: "userName",
+          label: "TextBox",
           name: "txt1",
           value: "test",
           placeholder: "here is fun",
@@ -66,8 +66,8 @@ export default {
           controlType: "textBoxBiz"
         },
         txtPassword: {
-          label: "userName",
-          name: "txt1",
+          label: "Password Text",
+          name: "passwordText",
           value: "",
           placeholder: "here is fun",
           readonly: true,
@@ -95,7 +95,7 @@ export default {
           text: ""
         },
         post: {
-          label: "Posts",
+          label: "Auto Complete",
           name: "post",
           value: "",
           placeholder: "",
@@ -108,7 +108,7 @@ export default {
           text: ""
         },
         comment: {
-          label: "Comments",
+          label: "Drop Down List",
           name: "comment",
           value: "",
           placeholder: "",
@@ -192,7 +192,7 @@ export default {
       };
     },
     test() {
-      alert(JSON.stringify(this.formSchema.txt2));
+      alert(JSON.stringify(this.formSchema.dateInput));
     },
     async loadPosts() {
       let url = "https://jsonplaceholder.typicode.com/posts";
