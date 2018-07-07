@@ -1,7 +1,7 @@
 <template>
 
 
-   <mu-form-item  :label="label" prop="value" :rules="validationRules">
+   <mu-form-item  :label="label" prop="value">
       <mu-date-input v-model="ownValue" format="YYYY/MM/DD" :container="containerContent" :date-time-format="enDateFormat" @input="raiseChangeEvent"></mu-date-input>
     </mu-form-item>
 
